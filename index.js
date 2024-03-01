@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const { User } = require("./models/User");
+const { auth } = require("./middleware/auth");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
@@ -12,6 +13,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //application/json
 app.use(bodyParser.json());
+
+app.use(cookieParser());
 
 const mongoose = require("mongoose");
 mongoose
@@ -29,7 +32,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!~~~ nodemon으로 실행중");
 });
 
-app.post("/register", (req, res) => {
+app.post("/api/users/register", (req, res) => {
   //회원가입 할때 필요한 정보들을 client에서 가져오면
   //그것들을 데이터 베이스에 넣어준다.
 
@@ -41,7 +44,7 @@ app.post("/register", (req, res) => {
     .catch((err) => res.json({ success: false, err }));
 });
 
-app.post("/login", (req, res) => {
+app.post("/api/users/login", (req, res) => {
   // 요청된 이메일을 데이터베이스 찾기
   User.findOne({ email: req.body.email })
     .then((user) => {
@@ -71,6 +74,39 @@ app.post("/login", (req, res) => {
     .catch((err) => {
       return res.status(400).send(err);
     });
+});
+
+app.get("/api/users/auth", auth, (req, res) => {
+  res.status(200).json({
+    _id: req.user._id,
+    isAdmin: req.user.role === 0 ? false : true,
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+    lastName: req.user.lastName,
+    role: req.user.role,
+    image: req.user.image,
+  });
+});
+
+app.get("/api/users/logout", auth, async (req, res) => {
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: req.user._id },
+      { token: "" }
+    );
+    return res.status(200).send({
+      success: true,
+    });
+  } catch (err) {
+    return res.json({ success: false, err });
+  }
+  // User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
+  //   if (err) return res.json({ success: false, err });
+  //   return res.status(200).send({
+  //     success: true,
+  //   });
+  // });
 });
 
 app.listen(port, () => {
