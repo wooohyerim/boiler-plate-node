@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 6000;
 const { User } = require("./models/User");
 const { auth } = require("./middleware/auth");
 const bodyParser = require("body-parser");
@@ -30,6 +30,10 @@ mongoose
 
 app.get("/", (req, res) => {
   res.send("Hello World!~~~ nodemon으로 실행중");
+});
+
+app.get("/api/hello", (req, res) => {
+  res.send("통신 성공");
 });
 
 app.post("/api/users/register", (req, res) => {
