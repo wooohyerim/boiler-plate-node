@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_action";
+import userAuth from "../../../hoc/auth";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -60,4 +61,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default userAuth(LoginPage, false);

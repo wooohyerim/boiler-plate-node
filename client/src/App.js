@@ -4,7 +4,13 @@ import LandingPage from "./components/views/LandingPage/LandingPage";
 import LoginPage from "./components/views/LoginPage/LoginPage";
 import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 
+// import userAuth from "./hoc/auth";
+
 function App() {
+  // const AuthLandingPage = userAuth(LandingPage, null);
+  // const AuthLoginPage = userAuth(LoginPage, false);
+  // const AuthRegisterPage = userAuth(RegisterPage, false);
+
   return (
     <BrowserRouter>
       <Routes>
