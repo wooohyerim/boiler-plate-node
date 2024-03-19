@@ -15,9 +15,9 @@ export default function userAuth(SpecialComponent, option, adminRoute = null) {
 
     useEffect(() => {
       dispatch(auth()).then((res) => {
-        console.log(res);
+        // console.log(res);
         // 로그인 하지 않은 상태
-        if (!res.payload.isAuth) {
+        if (!res?.payload?.isAuth) {
           if (option) {
             navigate("/login");
           }

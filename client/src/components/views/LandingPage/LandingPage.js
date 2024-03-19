@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import userAuth from "../../../hoc/auth";
+import { auth } from "../../../_actions/user_action";
 
 const LandingPage = () => {
-  // useEffect(() => {
-  //   axios
-  //     .get("/api/hello")
-  //     .then((res) => console.log(res))
-  //     .catch((err) => console.log(err));
-  // }, []);
+  const [user, setUser] = useState("");
+
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const onClickHandler = () => {
@@ -17,7 +17,7 @@ const LandingPage = () => {
       .get("/api/users/logout")
       .then((res) => {
         if (res.data.success) {
-          navigate("/login");
+          navigate("/");
         } else {
           alert("logout 실패");
         }
@@ -25,10 +25,23 @@ const LandingPage = () => {
       .catch((err) => console.log(err));
   };
 
+  const onClickLoginHandler = () => {
+    navigate("/login");
+  };
+
+  dispatch(auth()).then((res) => {
+    if (res.payload) {
+      setUser(res.payload.name);
+    } else {
+      alert("error");
+    }
+  });
+
   return (
     <div
       style={{
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
@@ -36,7 +49,11 @@ const LandingPage = () => {
       }}
     >
       <h1>LandingPage</h1>
-      <button onClick={onClickHandler}>Logout</button>
+      {user !== undefined ? (
+        <button onClick={onClickHandler}>Logout</button>
+      ) : (
+        <button onClick={onClickLoginHandler}>Login</button>
+      )}
     </div>
   );
 };
