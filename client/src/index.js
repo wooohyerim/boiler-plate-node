@@ -6,7 +6,7 @@ import { applyMiddleware, legacy_createStore as createStore } from "redux";
 import promiseMiddleware from "redux-promise";
 import { thunk as ReduxThunk } from "redux-thunk";
 import Reducer from "./_reducers";
-import "./index.css";
+// import "./index.css";
 
 const createStoreWithMiddleware = applyMiddleware(
   promiseMiddleware,

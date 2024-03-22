@@ -39,14 +39,15 @@ const LandingPage = () => {
 
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100vh",
-      }}
+
+    // style={{
+    //   display: "flex",
+    //   flexDirection: "column",
+    //   justifyContent: "center",
+    //   alignItems: "center",
+    //   width: "100%",
+    //   height: "100vh",
+    // }}
     >
       <h1>LandingPage</h1>
       {user !== undefined ? (
